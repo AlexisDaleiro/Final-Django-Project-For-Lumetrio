@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="ui segment">
+  <div class="ui stackable grid">
+
+    <div class="four wide column">
+      <div class="ui vertical fluid menu">
+        <div class="header item">
+          Marketplace
+        </div>
+        <a class="{% if request.resolver_match.view_name == 'market:item-list' %}active{% endif %} item" href="{% url 'market:item-list' %}">All items</a>
+        <a class="{% if request.resolver_match.view_name == 'market:item-create' %}active{% endif %} item" href="{% url 'market:item-create' %}">Sell item</a>
+      </div>
+    </div>
+
+    <div class="twelve wide column">
+      <div class="ui stackable grid">
+        {% for item in items %}
+        <div class="four wide column">
+          <div class="ui card ">
+            <div class="image">
+              <img src="{{ item.image.url }}">
+            </div>
+            <div class="content">
+              <div class="header">{{ item.title }}</div>
+              <div class="meta">${{ item.price }}</div>
+              <div class="description">{{ item.description }}</div>
+            </div>
+            <div class="extra content">
+              <span class="right floated">
+                <a href="{% url 'market:item-detail' pk=item.pk %}">
+                  View
+                </a>
+                {% if item.author.user == request.user %}
+                <a href="{% url 'market:item-update' pk=item.pk %}">
+                  Edit
+                </a>
+                <a href="{% url 'market:item-delete' pk=item.pk %}">
+                  Delete
+                </a>
+                {% endif %}
+              </span>
+              <span>
+                <i class="user icon"></i>
+                {{ item.author.user.username }}
+              </span>
+              {% if request.user.is_authenticated and item.author.user != request.user %}
+              <a class="right floated" href="{% url 'market:communication-create' pk=item.pk %}">
+                Contact seller
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p>No items found.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

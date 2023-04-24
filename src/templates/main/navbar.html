@@ -1,0 +1,91 @@
+{% url 'posts:main-post-view' as path_to_posts %}
+{% url 'home-view' as path_to_home %}
+{% url 'profiles:my-profile-view' as path_to_my_profile %}
+{% url 'profiles:my-invites-view' as path_to_my_invites %}
+{% url 'profiles:invite-profiles-view' as path_to_invites %}
+{% url 'profiles:all-profiles-view' as path_to_all_profiles %}
+{% load static %}
+<div class="ui inverted menu nav mb-7 sm">
+    <div class="ui container">
+      {% if not request.user.is_authenticated %}
+      <a href="{{path_to_home}}" class="{% if request.path == path_to_home %}active{% endif %} item borde">
+          <img src="{% static 'BFF.Book.png' %}"> &nbsp; &nbsp; BFF BOOK 
+      </a>
+      {% else %}
+      <a class="{% if request.path == path_to_home %}active{% endif %} item borde">
+        <img src="{% static 'BFF.Book.png' %}"> &nbsp; &nbsp; BFF BOOK 
+    </a>
+      {% endif %}
+      {% if not request.user.is_authenticated %}
+      <a href="{{path_to_posts}}" class="{% if request.path == path_to_posts %}active{% endif %} item border">
+        <i class="copy outline icon"></i>  Board
+      </a>
+      {% endif %}
+      {% if request.user.is_authenticated %}
+      <a href="{{path_to_posts}}" class="{% if request.path == path_to_posts %}active{% endif %} item border">
+        <i class="copy outline icon"></i>  Board
+      </a>
+      {% comment %} <div class="item">
+        <div class="ui floating dropdown icon button teal"> Friends
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <a href="{{path_to_all_profiles}}" class="{% if request.path == path_to_all_profiles %}active{% endif %} item">
+                    All Profiles
+                </a>
+                <a href="{{path_to_invites}}" class="{% if request.path == path_to_invites %}active{% endif %} item">
+                    Send Invites
+                </a>
+                <a href="{{path_to_my_invites}}" class="{% if request.path == path_to_my_invites %}active{% endif %} item">
+                    Received Invites &nbsp; <div class="ui purple horizontal label">{{invites_num}}</div>
+                </a>
+            </div>
+         </div>
+    </div> {% endcomment %}
+      <a href="{% url 'market:item-list' %}" class="{% if request.path == path_to_market %}active{% endif %} item border"><i class="money bill alternate outline icon"></i> Marketplace</a>
+      {% endif %}
+      <div class="right menu">
+          {% if request.user.is_authenticated %}
+          <nav class="item linea">               
+                  <ul class="clasmenu">
+                      <a href="{{path_to_all_profiles}}" class="{% if request.path == path_to_all_profiles %}active{% endif %} item border">
+                        <i class="address book outline icon"></i>  All Profiles
+                      </a>
+                      <a href="{{path_to_invites}}" class="{% if request.user == path_to_invites %}active{% endif %} item border">
+                        <i class="clipboard check icon"></i>  Send Invites
+                      </a>
+                      <a href="{{path_to_my_invites}}" class="{% if request.path == path_to_my_invites %}active{% endif %} item border">
+                        <i class="book icon"></i> Received Invites &nbsp; <div class="ui purple horizontal label">{{invites_num}}</div>
+                      </a>
+                    </ul>
+            </nav>
+            
+              <a href="{{path_to_my_profile}}" class="{% if request.path == path_to_my_profile %}active{% endif %} item border">
+                   <img src={{picture.url}} class='ui avatar image'>&nbsp;
+                {{ request.user }}
+              </a>
+  
+              <a href="{% url 'account_logout' %}" class="ui item border">
+                  Logout
+              </a>
+          {% else %}
+          <a href="{% url 'account_login' %}" class="ui item border">
+                  Login
+              </a>
+            <a href="{% url 'account_signup' %}" class="ui item border">
+                Register
+            </a>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+  {% comment %} <div class="item">
+                <form action="" method="GET">
+                  <div class="ui action left icon input">
+                  <input class="prompt" type="text" name='q' placeholder="name of a friend...">
+                  <i class="search icon"></i>
+                  <button type='submit' class="ui button">Search</button>
+                  </div>
+              </form>
+              </div> {% endcomment %}

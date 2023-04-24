@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="ui container">
+    <div class="ui raised segment">
+      <div class="ui grid">
+        <div class="six wide column">
+          {% if object.image %}
+            <img class="ui centered big image" src="{{ object.get_image_url }}" alt="{{ object.item_name }}">
+          {% endif %}
+          <div class="ui segment">
+            <h3 class="ui header">Product Details</h3>
+            <ul class="ui list">
+              <li><strong>Condition:</strong> {{ object.condition }}</li>
+              <li><strong>Category:</strong> {{ object.category }}</li>
+              <li><strong>Location:</strong> {{ object.location }}</li>
+              <li><strong>Creator:</strong> {{ object.author }}</li>
+            </ul>
+          </div>
+          {% if user == object.author.user %}
+  <div class="ui buttons">
+    <a class="ui button" href="{% url 'market:item-update' object.pk %}">Update</a>
+    <a href="{% url 'market:item-delete' pk=item.pk %}" class="ui button negative">
+      Delete
+    </a>
+  </div>
+{% endif %}
+        </div>
+        <div class="ten wide column">
+          <h1 class="ui header">{{ object.item_name }}</h1>
+          <p>{{ object.desc }}</p>
+          <p class="ui header">Price: {{ object.get_price_display }}</p>
+          {% if item.is_available %}
+            <p><strong>Status:</strong> Available</p>
+          {% elif item.is_sold %}
+            <p><strong>Status:</strong> Sold</p>
+          {% endif %}
+
+          <hr>
+
+          <h2 class="ui dividing header">Contact the Seller</h2>
+          <form class="ui form" method="post" action="{% url 'market:communication-create' object.pk %}">
+            {% csrf_token %}
+            
+            <div class="field">
+              <label>Comment:</label>
+              {{ communication_form.comment }}
+            </div>
+            <button class="ui button primary" type="submit">Send</button>
+          </form>
+    
+          <h2 class="ui dividing header">Comments</h2>
+    
+          {% if comments %}
+            <div class="ui comments">
+              {% for comment in comments %}
+                <div class="comment">
+                  <div class="content">
+                    <span class="author">{{ comment.user }}</span>
+                    <div class="metadata">
+                      <span class="date">{{ comment.created }}</span>
+                    </div>
+                    <div class="text">
+                      {{ comment.comment }}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p>No comments yet.</p>
+          {% endif %}
+    
+          <hr>
+          
+        </div>
+      </div>
+    
+    </div>
+    
+
+  </div>
+  {% endblock %}

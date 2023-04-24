@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="ui container">
+    <div class="ui raised segment">
+      <h2 class="ui header">Are you sure you want to delete "{{ object.item_name }}"?</h2>
+      <form method="post">
+        {% csrf_token %}
+        <div class="ui buttons">
+          <a class="ui button" href="{% url 'market:item-detail' object.pk %}">Cancel</a>
+          <button class="ui button negative" type="submit">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

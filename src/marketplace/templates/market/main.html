@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Welcome to the Marketplace</h1>
+  <p>Check out our latest items:</p>
+  <ul>
+    {% for item in items %}
+      <li>
+        <a href="{% url 'market:item-detail' pk=item.pk %}">
+          <img src="{{ item.get_image_url }}" alt="{{ item.item_name }}" width="200">
+          <h2>{{ item.item_name }}</h2>
+          <p>{{ item.get_price_display }}</p>
+        </a>
+      </li>
+    {% empty %}
+      <p>No items available</p>
+    {% endfor %}
+  </ul>
+{% endblock %}

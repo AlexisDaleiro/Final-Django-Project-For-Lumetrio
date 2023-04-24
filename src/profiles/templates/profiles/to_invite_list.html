@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="ui container">
+  <div class="ui segment">
+  <h1 class="ui header">Invitaciones Enviadas</h1>
+  </div>
+  <div class="ui segment">
+    {% if is_empty %}
+      <p>No hay invitaciones enviadas.</p>
+    {% else %}
+      <div class="ui grid">
+        {% for profile in qs %}
+          <div class="row">
+            <div class="three wide column">
+            <img class="ui small circular image" src="{{ profile.avatar.url }}">
+            </div>
+
+            <div class="thirteen wide column">
+                <h3>{{profile.user}}</h3>
+                <p>{{ profile.bio }}</p>
+                <a href={{profile.get_absolute_url}}><button class="ui primary button mb-5 w-big">See profile</button></a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% comment %} 
+
+<div class="ui segment">
+    <div class="ui grid">
+        <div class="row">
+            <div class="three wide column">
+                <img class="ui small circular image" src={{obj.avatar.url}}>
+            </div>
+            <div class="thirteen wide column">
+                <h3>{{obj.user}}</h3>
+                <p>{{obj.bio}}</p>
+                <a href={{obj.get_absolute_url}}><button class="ui primary button mb-5 w-big">See profile</button></a>
+                <br> 
+                
+                
+                {% endcomment %}

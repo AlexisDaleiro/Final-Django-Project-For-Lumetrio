@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{% if request.resolver_match.url_name == 'item-create' %}New Item{% else %}Update Item{% endif %}</h1>
+  <form method="post" enctype="multipart/form-data" class="ui form">
+    {% csrf_token %}
+    <div class="field">
+      {{ form.item_name.label_tag }}
+      {{ form.item_name }}
+    </div>
+    <div class="field">
+      {{ form.desc.label_tag }}
+      {{ form.desc }}
+    </div>
+    <div class="field">
+      {{ form.price.label_tag }}
+      {{ form.price }}
+    </div>
+    <div class="field">
+      {{ form.image.label_tag }}
+      {{ form.image }}
+    </div>
+    <div class="field">
+      {{ form.condition.label_tag }}
+      {{ form.condition }}
+    </div>
+    <div class="field">
+      {{ form.category.label_tag }}
+      {{ form.category }}
+    </div>
+    <div class="field">
+      {{ form.location.label_tag }}
+      {{ form.location }}
+    </div>
+    <div class="field">
+      {{ form.market_status.label_tag }}
+      {{ form.market_status }}
+    </div>
+    <button class="ui primary button" type="submit">{% if request.resolver_match.url_name == 'item-create' %}Create{% else %}Update{% endif %}</button>
+  </form>
+{% endblock %}
